@@ -3,3 +3,4 @@ run:
 
 check-url:
 	curl http://localhost:5000/players/Pepper
+
