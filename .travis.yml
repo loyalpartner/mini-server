@@ -1,0 +1,10 @@
+language: go
+go:
+ - 1.4.x
+ - 1.11.x
+ - 1.16.x
+ - 1.x
+ - main
+
+script:
+ - go test -v ./...
