@@ -16,41 +16,41 @@ type StubPlayerStore struct {
 	winCalls []string
 }
 
-func (this *StubPlayerStore) GetPlayerScore(name string) int {
-	return this.scores[name]
+func (s *StubPlayerStore) GetPlayerScore(name string) int {
+	return s.scores[name]
 }
 
-func (this *StubPlayerStore) RecordWin(name string) {
-	this.winCalls = append(this.winCalls, name)
+func (s *StubPlayerStore) RecordWin(name string) {
+	s.winCalls = append(s.winCalls, name)
 }
 
 type PlayerServer struct {
 	store PlayerStore
 }
 
-func (this *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (s *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	player := r.URL.Path[len("/players/"):]
 
 	switch r.Method {
 	case http.MethodPost:
-		this.processWin(w, player)
+		s.processWin(w, player)
 	case http.MethodGet:
-		this.showScore(w, player)
+		s.showScore(w, player)
 	}
 }
 
-func (this *PlayerServer) showScore(w http.ResponseWriter, player string) {
-	score := this.store.GetPlayerScore(player)
+func (s *PlayerServer) showScore(w http.ResponseWriter, player string) {
+	score := s.store.GetPlayerScore(player)
 
 	if score == 0 {
 		w.WriteHeader(http.StatusNotFound)
 	}
 
-	fmt.Fprint(w, this.store.GetPlayerScore(player))
+	fmt.Fprint(w, s.store.GetPlayerScore(player))
 }
 
-func (this *PlayerServer) processWin(w http.ResponseWriter, player string) {
-	this.store.RecordWin(player)
+func (s *PlayerServer) processWin(w http.ResponseWriter, player string) {
+	s.store.RecordWin(player)
 	w.WriteHeader(http.StatusAccepted)
 }
 
@@ -62,12 +62,12 @@ type InMemoryPlayerStore struct {
 	store map[string]int
 }
 
-func (this *InMemoryPlayerStore) RecordWin(name string) {
-	this.store[name]++
+func (s *InMemoryPlayerStore) RecordWin(name string) {
+	s.store[name]++
 }
 
-func (this *InMemoryPlayerStore) GetPlayerScore(name string) int {
-	return this.store[name]
+func (s *InMemoryPlayerStore) GetPlayerScore(name string) int {
+	return s.store[name]
 }
 
 func main() {

@@ -1,0 +1,44 @@
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - depguard
+    - dupl
+    - errcheck
+    - exportloopref
+    - goconst
+    - gocyclo
+    - gofmt
+    - goimports
+    - goprintffuncname
+    # - gosec # NOTE: we should reenable this item
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - noctx
+    - nolintlint
+    - staticcheck
+    - stylecheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - whitespace
+
+linters-settings:
+  staticcheck:
+    checks:
+      - "all"
+      - "-SA1019" # disable the rule SA1019
+  stylecheck:
+    checks:
+      - "all"
+      - "-ST1003" # disable the rule ST1003
+      - "-ST1001" # disable the rule ST1001
+      - "-ST1016" # disable the rule ST1016
+
+run:
+  skip-files:
+    - ".+_test.go"
+    - ".+_test_.+.go"
